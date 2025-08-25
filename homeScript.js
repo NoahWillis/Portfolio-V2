@@ -82,9 +82,9 @@ const closeTerminal = () => modals.close('terminal');
 // Optimized EmailJS Handler
 const emailHandler = {
     config: {
-        publicKey: 'Yy1oM2U3NUdXNnh3RHQwX20=',
+        publicKey: 'Yy1oM2U3NUdXNnh3RHQwX20',
         serviceId: 'c2VydmljZV9paGdueXVt',
-        templateId: 'dGVtcGxhdGVfYnVoeTdkYQ=='
+        templateId: 'dGVtcGxhdGVfYnVoeTdkYQ'
     },
     
     init() {
