@@ -1,3 +1,27 @@
+/* CSS Custom Properties for consistent theming */
+:root {
+    /* VS Code Color Palette */
+    --vs-dark: #1e1e1e;
+    --vs-sidebar: #252526;
+    --vs-border: #3e3e42;
+    --vs-lighter: #2d2d30;
+    --vs-text: #cccccc;
+    --vs-text-light: #ffffff;
+    --vs-blue: #007acc;
+    --vs-blue-dark: #094771;
+    --vs-folder: #dcb67a;
+    --vs-html: #e34c26;
+    --vs-css: #1572b6;
+    --vs-hover: #2a2d2e;
+    --vs-header: #333;
+    
+    /* Animation values */
+    --fade-duration: 0.4s;
+    --spin-duration: 1s;
+    --transition-duration: 0.5s;
+}
+
+/* Optimized base styles */
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
@@ -8,34 +32,37 @@ body {
     flex-direction: column;
     overflow: hidden;
     opacity: 0;
-    animation: fadeIn 0.4s ease-in-out forwards;
+    animation: fadeIn var(--fade-duration) ease-in-out forwards;
 }
 
+/* Consolidated animations */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes slideInFromLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Page transition overlay */
 .page-transition-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #1e1e1e;
+    inset: 0;
+    background: var(--vs-dark);
     z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity var(--transition-duration) ease-in-out;
 }
 
 .page-transition-overlay.active {
@@ -45,57 +72,41 @@ body {
 
 .transition-content {
     text-align: center;
-    color: #cccccc;
+    color: var(--vs-text);
 }
 
 .transition-spinner {
     width: 40px;
     height: 40px;
-    border: 3px solid #3e3e42;
-    border-top: 3px solid #007acc;
+    border: 3px solid var(--vs-border);
+    border-top: 3px solid var(--vs-blue);
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: spin var(--spin-duration) linear infinite;
     margin: 0 auto 20px;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
 header {
-    background: #333;
-    color: #fff;
-    padding: .5rem 0;
+    background: var(--vs-header);
+    color: var(--vs-text-light);
+    padding: 0.5rem 0;
 }
 
 
-/* VS Code Interface */
+/* Optimized VS Code Interface */
 .vscode-interface {
     display: flex;
     flex: 1;
-    background: #1e1e1e;
+    background: var(--vs-dark);
     overflow: hidden;
     opacity: 0;
-    animation: slideInFromLeft 0.4s ease-out 0.1s forwards;
-}
-
-@keyframes slideInFromLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+    animation: slideInFromLeft var(--fade-duration) ease-out 0.1s forwards;
 }
 
 /* File Explorer */
 .file-explorer {
     width: 250px;
-    background: #252526;
-    border-right: 1px solid #3e3e42;
+    background: var(--vs-sidebar);
+    border-right: 1px solid var(--vs-border);
     display: flex;
     flex-direction: column;
     opacity: 0;
@@ -104,12 +115,12 @@ header {
 
 .explorer-header {
     padding: 10px 15px;
-    background: #2d2d30;
-    color: #cccccc;
+    background: var(--vs-lighter);
+    color: var(--vs-text);
     font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;
-    border-bottom: 1px solid #3e3e42;
+    border-bottom: 1px solid var(--vs-border);
 }
 
 .file-tree {
@@ -126,20 +137,20 @@ header {
     display: flex;
     align-items: center;
     padding: 4px 15px;
-    color: #cccccc;
+    color: var(--vs-text);
     cursor: pointer;
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
     font-size: 13px;
 }
 
 .folder-header:hover {
-    background: #2a2d2e;
+    background: var(--vs-hover);
 }
 
 .folder-icon {
     margin-right: 6px;
     font-size: 12px;
-    color: #dcb67a;
+    color: var(--vs-folder);
 }
 
 .folder-content {
@@ -150,19 +161,19 @@ header {
     display: flex;
     align-items: center;
     padding: 4px 15px;
-    color: #cccccc;
+    color: var(--vs-text);
     cursor: pointer;
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
     font-size: 13px;
 }
 
 .file-item:hover {
-    background: #2a2d2e;
+    background: var(--vs-hover);
 }
 
 .file-item.active {
-    background: #094771;
-    color: #ffffff;
+    background: var(--vs-blue-dark);
+    color: var(--vs-text-light);
 }
 
 .file-icon {
@@ -171,11 +182,11 @@ header {
 }
 
 .file-icon.html {
-    color: #e34c26;
+    color: var(--vs-html);
 }
 
 .file-icon.css {
-    color: #1572b6;
+    color: var(--vs-css);
 }
 
 .file-icon.js {

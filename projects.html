@@ -70,32 +70,8 @@
             </div>
             
             <div class="editor-content">
-                <div class="line-numbers">
-                    <span>1</span>
-                    <span>2</span>
-                    <span>3</span>
-                    <span>4</span>
-                    <span>5</span>
-                    <span>6</span>
-                    <span>7</span>
-                    <span>8</span>
-                    <span>9</span>
-                    <span>10</span>
-                    <span>11</span>
-                    <span>12</span>
-                    <span>13</span>
-                    <span>14</span>
-                    <span>15</span>
-                    <span>16</span>
-                    <span>17</span>
-                    <span>18</span>
-                    <span>19</span>
-                    <span>20</span>
-                    <span>21</span>
-                    <span>22</span>
-                    <span>23</span>
-                    <span>24</span>
-                    <span>25</span>
+                <div class="line-numbers" id="line-numbers">
+                    <!-- Line numbers generated dynamically by JavaScript -->
                 </div>
                 
                 <div class="code-area">
@@ -241,208 +217,220 @@
     </footer>
 
     <script>
-        // Page transition functionality
-        window.addEventListener('load', function() {
-            // Hide the transition overlay after page loads
-            setTimeout(() => {
-                const overlay = document.getElementById('transitionOverlay');
-                overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                }, 300);
-            }, 400);
-        });
-
-        // Add transition when navigating away
-        function navigateWithTransition(url) {
-            const overlay = document.getElementById('transitionOverlay');
-            overlay.style.display = 'flex';
-            overlay.style.opacity = '1';
-            
-            setTimeout(() => {
-                window.location.href = url;
-            }, 300);
-        }
-
-        let openTabs = new Set(['default']);
-        let activeTab = 'default';
-
-        function openProject(projectId) {
-            // Add tab if not already open
-            if (!openTabs.has(projectId)) {
-                addTab(projectId);
-                openTabs.add(projectId);
+        // Optimized Projects Page Manager
+        class ProjectsManager {
+            constructor() {
+                this.openTabs = new Set(['default']);
+                this.activeTab = 'default';
+                this.currentSlideIndex = {};
+                this.projectData = {
+                    names: {
+                        'ascii-game': 'Python DND Game',
+                        'TaskManager': 'Task Manager'
+                    },
+                    icons: {
+                        'ascii-game': 'fab fa-python',
+                        'TaskManager': 'fab fa-js',
+                        'portfolio-website': 'fas fa-globe'
+                    }
+                };
+                this.init();
             }
-            
-            // Switch to this tab
-            switchToTab(projectId);
-            
-            // Update active file in tree
-            const fileItems = document.querySelectorAll('.file-item');
-            fileItems.forEach(item => item.classList.remove('active'));
-            event.target.closest('.file-item').classList.add('active');
-        }
 
-        function addTab(projectId) {
-            const tabBar = document.querySelector('.tab-bar');
-            const projectNames = {
-                'ascii-game': 'Python DND Game',
-                'TaskManager': 'Task Manager'
-            };
-            
-            const projectIcons = {
-                'ascii-game': 'fab fa-python',
-                'TaskManager': 'fab fa-js',
-                'portfolio-website': 'fas fa-globe'
-            };
+            init() {
+                this.setupPageTransitions();
+                this.initializeSlideshows();
+                this.generateLineNumbers();
+            }
 
-            const tab = document.createElement('div');
-            tab.className = 'tab';
-            tab.id = `tab-${projectId}`;
-            tab.innerHTML = `
-                <i class="${projectIcons[projectId]} tab-icon"></i>
-                <span>${projectNames[projectId]}</span>
-                <i class="fas fa-times tab-close" onclick="closeTab('${projectId}', event)"></i>
-            `;
-            tab.onclick = (e) => {
-                if (!e.target.classList.contains('tab-close')) {
-                    switchToTab(projectId);
+            // Generate line numbers dynamically
+            generateLineNumbers() {
+                const lineNumbersContainer = document.getElementById('line-numbers');
+                if (lineNumbersContainer) {
+                    const fragment = document.createDocumentFragment();
+                    for (let i = 1; i <= 25; i++) {
+                        const span = document.createElement('span');
+                        span.textContent = i;
+                        fragment.appendChild(span);
+                    }
+                    lineNumbersContainer.appendChild(fragment);
                 }
-            };
-            
-            tabBar.appendChild(tab);
-        }
-
-        function switchToTab(tabId) {
-            // Update active tab
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            if (tabId === 'default') {
-                document.getElementById('default-tab').classList.add('active');
-            } else {
-                document.getElementById(`tab-${tabId}`).classList.add('active');
             }
-            
-            // Show/hide content
-            if (tabId === 'default') {
-                document.getElementById('default-content').style.display = 'flex';
-                document.querySelectorAll('.project-display').forEach(project => {
-                    project.classList.remove('active');
+
+            // Page Transitions
+            setupPageTransitions() {
+                window.addEventListener('load', () => {
+                    setTimeout(() => {
+                        const overlay = document.getElementById('transitionOverlay');
+                        overlay.style.opacity = '0';
+                        setTimeout(() => overlay.style.display = 'none', 300);
+                    }, 400);
                 });
-            } else {
-                document.getElementById('default-content').style.display = 'none';
-                document.querySelectorAll('.project-display').forEach(project => {
-                    project.classList.remove('active');
+            }
+
+            navigateWithTransition(url) {
+                const overlay = document.getElementById('transitionOverlay');
+                overlay.style.display = 'flex';
+                overlay.style.opacity = '1';
+                setTimeout(() => window.location.href = url, 300);
+            }
+
+            // Tab Management
+            openProject(projectId) {
+                if (!this.openTabs.has(projectId)) {
+                    this.addTab(projectId);
+                    this.openTabs.add(projectId);
+                }
+                this.switchToTab(projectId);
+                this.updateActiveFile();
+            }
+
+            addTab(projectId) {
+                const tabBar = document.querySelector('.tab-bar');
+                const tab = document.createElement('div');
+                tab.className = 'tab';
+                tab.id = `tab-${projectId}`;
+                tab.innerHTML = `
+                    <i class="${this.projectData.icons[projectId]} tab-icon"></i>
+                    <span>${this.projectData.names[projectId]}</span>
+                    <i class="fas fa-times tab-close" onclick="projectsManager.closeTab('${projectId}', event)"></i>
+                `;
+                tab.onclick = (e) => {
+                    if (!e.target.classList.contains('tab-close')) {
+                        this.switchToTab(projectId);
+                    }
+                };
+                tabBar.appendChild(tab);
+            }
+
+            switchToTab(tabId) {
+                // Update active tab
+                document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+                const targetTab = tabId === 'default' ? 
+                    document.getElementById('default-tab') : 
+                    document.getElementById(`tab-${tabId}`);
+                targetTab?.classList.add('active');
+
+                // Show/hide content
+                const defaultContent = document.getElementById('default-content');
+                const projectDisplays = document.querySelectorAll('.project-display');
+
+                if (tabId === 'default') {
+                    defaultContent.style.display = 'flex';
+                    projectDisplays.forEach(project => project.classList.remove('active'));
+                } else {
+                    defaultContent.style.display = 'none';
+                    projectDisplays.forEach(project => project.classList.remove('active'));
+                    document.getElementById(tabId)?.classList.add('active');
+                }
+                this.activeTab = tabId;
+            }
+
+            closeTab(tabId, event) {
+                event.stopPropagation();
+                if (this.openTabs.size <= 1) return;
+
+                document.getElementById(`tab-${tabId}`)?.remove();
+                this.openTabs.delete(tabId);
+
+                if (this.activeTab === tabId) {
+                    const remainingTabs = Array.from(this.openTabs);
+                    this.switchToTab(remainingTabs[remainingTabs.length - 1]);
+                }
+            }
+
+            updateActiveFile() {
+                const fileItems = document.querySelectorAll('.file-item');
+                fileItems.forEach(item => item.classList.remove('active'));
+                event.target.closest('.file-item')?.classList.add('active');
+            }
+
+            // File Management
+            openFile(fileName) {
+                if (fileName === 'home') {
+                    this.navigateWithTransition('home.html');
+                } else if (fileName === 'projects') {
+                    this.switchToTab('default');
+                }
+            }
+
+            toggleFolder(folderId) {
+                const folder = document.getElementById(folderId);
+                const icon = event.target.querySelector('.folder-icon');
+                
+                if (folder && icon) {
+                    const isHidden = folder.style.display === 'none';
+                    folder.style.display = isHidden ? 'block' : 'none';
+                    icon.classList.toggle('fa-chevron-right', !isHidden);
+                    icon.classList.toggle('fa-chevron-down', isHidden);
+                }
+            }
+
+            // Slideshow Management
+            initializeSlideshows() {
+                document.addEventListener('DOMContentLoaded', () => {
+                    this.currentSlideIndex['ascii-game'] = 1;
                 });
-                document.getElementById(tabId).classList.add('active');
             }
-            
-            activeTab = tabId;
+
+            changeSlide(direction, projectId) {
+                if (!this.currentSlideIndex[projectId]) {
+                    this.currentSlideIndex[projectId] = 1;
+                }
+
+                const slides = document.querySelectorAll(`#${projectId} .slide`);
+                const dots = document.querySelectorAll(`#${projectId} .dot`);
+                
+                if (slides.length === 0) return;
+
+                this.updateSlideClasses(slides, dots, projectId, false);
+                this.currentSlideIndex[projectId] += direction;
+                this.wrapSlideIndex(projectId, slides.length);
+                this.updateSlideClasses(slides, dots, projectId, true);
+            }
+
+            currentSlide(slideNumber, projectId) {
+                if (!this.currentSlideIndex[projectId]) {
+                    this.currentSlideIndex[projectId] = 1;
+                }
+
+                const slides = document.querySelectorAll(`#${projectId} .slide`);
+                const dots = document.querySelectorAll(`#${projectId} .dot`);
+                
+                if (slides.length === 0) return;
+
+                this.updateSlideClasses(slides, dots, projectId, false);
+                this.currentSlideIndex[projectId] = slideNumber;
+                this.updateSlideClasses(slides, dots, projectId, true);
+            }
+
+            updateSlideClasses(slides, dots, projectId, isActive) {
+                const index = this.currentSlideIndex[projectId] - 1;
+                slides[index]?.classList.toggle('active', isActive);
+                dots[index]?.classList.toggle('active', isActive);
+            }
+
+            wrapSlideIndex(projectId, maxSlides) {
+                if (this.currentSlideIndex[projectId] > maxSlides) {
+                    this.currentSlideIndex[projectId] = 1;
+                } else if (this.currentSlideIndex[projectId] < 1) {
+                    this.currentSlideIndex[projectId] = maxSlides;
+                }
+            }
         }
 
-        function closeTab(tabId, event) {
-            event.stopPropagation();
-            
-            // Don't close if it's the only tab
-            if (openTabs.size <= 1) return;
-            
-            // Remove tab from DOM
-            document.getElementById(`tab-${tabId}`).remove();
-            openTabs.delete(tabId);
-            
-            // If closing active tab, switch to another tab
-            if (activeTab === tabId) {
-                const remainingTabs = Array.from(openTabs);
-                switchToTab(remainingTabs[remainingTabs.length - 1]);
-            }
-        }
+        // Initialize the projects manager
+        const projectsManager = new ProjectsManager();
 
-        function openFile(fileName) {
-            if (fileName === 'home') {
-                navigateWithTransition('home.html');
-            } else if (fileName === 'projects') {
-                // Already on projects page, just switch to default tab
-                switchToTab('default');
-            }
-        }
-
-        function toggleFolder(folderId) {
-            const folder = document.getElementById(folderId);
-            const icon = event.target.querySelector('.folder-icon');
-            
-            if (folder.style.display === 'none') {
-                folder.style.display = 'block';
-                icon.classList.remove('fa-chevron-right');
-                icon.classList.add('fa-chevron-down');
-            } else {
-                folder.style.display = 'none';
-                icon.classList.remove('fa-chevron-down');
-                icon.classList.add('fa-chevron-right');
-            }
-        }
-
-        // Slideshow functionality
-        let currentSlideIndex = {};
-
-        function initializeSlideshow(projectId) {
-            currentSlideIndex[projectId] = 1;
-        }
-
-        function changeSlide(direction, projectId) {
-            if (!currentSlideIndex[projectId]) {
-                initializeSlideshow(projectId);
-            }
-            
-            const slides = document.querySelectorAll(`#${projectId} .slide`);
-            const dots = document.querySelectorAll(`#${projectId} .dot`);
-            
-            if (slides.length === 0) return;
-            
-            // Remove active class from current slide and dot
-            slides[currentSlideIndex[projectId] - 1].classList.remove('active');
-            dots[currentSlideIndex[projectId] - 1].classList.remove('active');
-            
-            // Update index
-            currentSlideIndex[projectId] += direction;
-            
-            // Handle wrap around
-            if (currentSlideIndex[projectId] > slides.length) {
-                currentSlideIndex[projectId] = 1;
-            }
-            if (currentSlideIndex[projectId] < 1) {
-                currentSlideIndex[projectId] = slides.length;
-            }
-            
-            // Add active class to new slide and dot
-            slides[currentSlideIndex[projectId] - 1].classList.add('active');
-            dots[currentSlideIndex[projectId] - 1].classList.add('active');
-        }
-
-        function currentSlide(slideNumber, projectId) {
-            if (!currentSlideIndex[projectId]) {
-                initializeSlideshow(projectId);
-            }
-            
-            const slides = document.querySelectorAll(`#${projectId} .slide`);
-            const dots = document.querySelectorAll(`#${projectId} .dot`);
-            
-            if (slides.length === 0) return;
-            
-            // Remove active class from current slide and dot
-            slides[currentSlideIndex[projectId] - 1].classList.remove('active');
-            dots[currentSlideIndex[projectId] - 1].classList.remove('active');
-            
-            // Set new index
-            currentSlideIndex[projectId] = slideNumber;
-            
-            // Add active class to new slide and dot
-            slides[currentSlideIndex[projectId] - 1].classList.add('active');
-            dots[currentSlideIndex[projectId] - 1].classList.add('active');
-        }
-
-        // Initialize slideshows when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeSlideshow('ascii-game');
-        });
+        // Legacy function wrappers for backward compatibility
+        const navigateWithTransition = (url) => projectsManager.navigateWithTransition(url);
+        const openProject = (projectId) => projectsManager.openProject(projectId);
+        const switchToTab = (tabId) => projectsManager.switchToTab(tabId);
+        const closeTab = (tabId, event) => projectsManager.closeTab(tabId, event);
+        const openFile = (fileName) => projectsManager.openFile(fileName);
+        const toggleFolder = (folderId) => projectsManager.toggleFolder(folderId);
+        const changeSlide = (direction, projectId) => projectsManager.changeSlide(direction, projectId);
+        const currentSlide = (slideNumber, projectId) => projectsManager.currentSlide(slideNumber, projectId);
     </script>
 </body>
 </html>
