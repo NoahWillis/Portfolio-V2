@@ -1,254 +1,144 @@
-// Optimized Page transition functionality
-const transitions = {
-    overlay: null,
+// Simple Email and Modal System - Starting Fresh
+
+// EmailJS Configuration (encoded for security)
+const EMAIL_CONFIG = {
+    publicKey: 'c-h3e75GW6xwDto_m', // Public key can remain visible
+    serviceId: atob('c2VydmljZV9saGdueXVt'), // Base64 encoded service ID
+    templateId: atob('dGVtcGxhdGVfYnVoeTdkYQ==') // Base64 encoded template ID
+};
+
+// Simple Modal Functions
+function openContactModal() {
+    document.getElementById('contactModal').style.display = 'flex';
+}
+
+function closeContactModal() {
+    document.getElementById('contactModal').style.display = 'none';
+}
+
+function openSuccessModal() {
+    document.getElementById('successModal').style.display = 'flex';
+}
+
+function closeSuccessModal() {
+    document.getElementById('successModal').style.display = 'none';
+}
+
+// Simple Email Handler
+function handleContactForm(event) {
+    event.preventDefault();
     
-    init() {
-        this.overlay = document.getElementById('transitionOverlay');
-        this.hideOnLoad();
-        this.setupNavigation();
-    },
+    console.log('Form submitted');
     
-    hideOnLoad() {
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                this.overlay.style.opacity = '0';
-                setTimeout(() => this.overlay.style.display = 'none', 300);
-            }, 400);
+    // Get form data
+    const formData = new FormData(event.target);
+    const submitButton = event.target.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
+    
+    // Show loading state
+    submitButton.textContent = 'Sending...';
+    submitButton.disabled = true;
+    
+    // Prepare email template parameters
+    const templateParams = {
+        from_name: formData.get('name'),
+        from_email: formData.get('email'),
+        subject: formData.get('subject'),
+        message: formData.get('message'),
+        to_name: 'Noah Willis',
+        reply_to: formData.get('email')
+    };
+    
+    console.log('Sending email with params:', templateParams);
+    console.log('Using Service ID:', EMAIL_CONFIG.serviceId);
+    console.log('Using Template ID:', EMAIL_CONFIG.templateId);
+    
+    // Send email using EmailJS
+    emailjs.send(EMAIL_CONFIG.serviceId, EMAIL_CONFIG.templateId, templateParams)
+        .then(function(response) {
+            console.log('Email sent successfully:', response);
+            
+            // Reset form
+            event.target.reset();
+            
+            // Close contact modal
+            closeContactModal();
+            
+            // Update success message
+            document.getElementById('successMessage').textContent = 
+                `Thank you, ${templateParams.from_name}! Your message has been sent successfully. I'll get back to you soon!`;
+            
+            // Show success modal
+            openSuccessModal();
+            
+        }, function(error) {
+            console.error('Email failed:', error);
+            alert('Sorry, there was an error sending your message. Please try again.');
+        })
+        .finally(function() {
+            // Reset button
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
         });
-    },
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Page loaded, initializing...');
     
-    navigate(url) {
-        this.overlay.style.display = 'flex';
-        this.overlay.style.opacity = '1';
+    // Initialize EmailJS
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init(EMAIL_CONFIG.publicKey);
+        console.log('EmailJS initialized');
+    } else {
+        console.error('EmailJS library not found');
+    }
+    
+    // Setup form handler
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', handleContactForm);
+        console.log('Contact form handler attached');
+    } else {
+        console.error('Contact form not found');
+    }
+    
+    // Setup modal click outside to close
+    window.addEventListener('click', function(event) {
+        const contactModal = document.getElementById('contactModal');
+        const successModal = document.getElementById('successModal');
+        
+        if (event.target === contactModal) {
+            closeContactModal();
+        }
+        if (event.target === successModal) {
+            closeSuccessModal();
+        }
+    });
+});
+
+// Page Transitions
+function navigateWithTransition(url) {
+    const overlay = document.getElementById('transitionOverlay');
+    if (overlay) {
+        overlay.style.display = 'flex';
+        overlay.style.opacity = '1';
         setTimeout(() => window.location.href = url, 300);
-    },
-    
-    setupNavigation() {
-        document.addEventListener('DOMContentLoaded', () => {
-            const projectsLink = document.querySelector('a[href="projects.html"]');
-            if (projectsLink) {
-                projectsLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    this.navigate('projects.html');
-                });
-            }
-        });
     }
-};
+}
 
-// Optimized Modal Management System
-const modals = {
-    elements: {},
-    
-    init() {
-        this.elements = {
-            contact: document.getElementById('contactModal'),
-            success: document.getElementById('successModal'),
-            terminal: document.getElementById('terminalModal')
-        };
-        this.setupClickOutside();
-    },
-    
-    open(type) {
-        if (this.elements[type]) {
-            this.elements[type].style.display = 'flex';
+// Page Load Transition
+window.addEventListener('load', function() {
+    setTimeout(() => {
+        const overlay = document.getElementById('transitionOverlay');
+        if (overlay) {
+            overlay.style.opacity = '0';
+            setTimeout(() => overlay.style.display = 'none', 300);
         }
-    },
-    
-    close(type) {
-        if (this.elements[type]) {
-            this.elements[type].style.display = 'none';
-        }
-    },
-    
-    setupClickOutside() {
-        window.onclick = (event) => {
-            Object.entries(this.elements).forEach(([type, modal]) => {
-                if (event.target === modal) {
-                    this.close(type);
-                }
-            });
-        };
-    }
-};
+    }, 400);
+});
 
-// Legacy function wrappers for backward compatibility
-const openContactModal = () => modals.open('contact');
-const closeContactModal = () => modals.close('contact');
-const openSuccessModal = () => modals.open('success');
-const closeSuccessModal = () => modals.close('success');
-const closeTerminal = () => modals.close('terminal');
-
-// Optimized EmailJS Handler
-const emailHandler = {
-    config: {
-        publicKey: 'c-h3e75GW6xwDt0_m',
-        serviceId: atob('c2VydmljZV9paGdueXVt'),
-        templateId: atob('dGVtcGxhdGVfYnVoeTdkYQ')
-    },
-    
-    init() {
-        emailjs.init(this.config.publicKey);
-        this.setupFormHandler();
-    },
-    
-    setupFormHandler() {
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('contactForm');
-            if (form) {
-                form.addEventListener('submit', (e) => this.handleSubmit(e));
-            }
-        });
-    },
-    
-    async handleSubmit(e) {
-        e.preventDefault();
-        
-        const submitButton = document.querySelector('.btn-primary');
-        const originalText = submitButton.textContent;
-        
-        this.setButtonState(submitButton, 'Sending...', true);
-        
-        try {
-            const formData = new FormData(e.target);
-            const templateParams = {
-                from_name: formData.get('name'),
-                from_email: formData.get('email'),
-                subject: formData.get('subject'),
-                message: formData.get('message'),
-                to_name: 'Noah Willis',
-                reply_to: formData.get('email')
-            };
-            
-            await emailjs.send(this.config.serviceId, this.config.templateId, templateParams);
-            this.handleSuccess(templateParams.from_name);
-            e.target.reset();
-            
-        } catch (error) {
-            console.error('Email send failed:', error);
-            alert('Sorry, there was an error sending your message. Please try again or contact me directly.');
-        } finally {
-            this.setButtonState(submitButton, originalText, false);
-        }
-    },
-    
-    setButtonState(button, text, disabled) {
-        button.textContent = text;
-        button.disabled = disabled;
-    },
-    
-    handleSuccess(senderName) {
-        closeContactModal();
-        document.getElementById('successMessage').textContent = 
-            `Thank you, ${senderName}! Your message has been sent successfully. I'll get back to you soon!`;
-        openSuccessModal();
-    }
-};
-
-// Optimized Terminal System
-const terminal = {
-    input: null,
-    output: null,
-    commands: {
-        help: 'Available commands: help, clear, about, contact, projects, dir, cd projects, echo [text]',
-        about: 'Noah Willis - Software Developer\nPassionate about creating innovative solutions.',
-        contact: 'Email: noah.willis2014@gmail.com\nLinkedIn: linkedin.com/in/noah-willis07',
-        projects: 'Check out my projects page for detailed information about my work.',
-        dir: 'NoahWillis.java\nREADME.md\nprojects/\ncontact.txt',
-        ls: 'NoahWillis.java\nREADME.md\nprojects/\ncontact.txt'
-    },
-    
-    init() {
-        document.addEventListener('DOMContentLoaded', () => {
-            this.input = document.getElementById('terminal-input');
-            this.output = document.getElementById('terminal-output');
-            
-            if (this.input) {
-                this.setupEventListeners();
-            }
-        });
-    },
-    
-    setupEventListeners() {
-        this.input.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                this.handleCommand(this.input.value);
-                this.input.value = '';
-            }
-        });
-        
-        this.output.addEventListener('click', () => this.input.focus());
-    },
-    
-    open() {
-        modals.open('terminal');
-        setTimeout(() => {
-            this.input.focus();
-            document.querySelector('.cursor')?.classList.add('blinking');
-        }, 500);
-    },
-    
-    handleCommand(command) {
-        this.addCommandLine(command);
-        
-        const cmd = command.toLowerCase().trim();
-        let response = '';
-        
-        if (this.commands[cmd]) {
-            response = this.commands[cmd];
-        } else if (['clear', 'cls'].includes(cmd)) {
-            this.clearTerminal();
-            return;
-        } else if (['cd projects', 'cd projects/'].includes(cmd)) {
-            response = 'Navigating to projects directory...';
-            setTimeout(() => window.location.href = 'projects.html', 1000);
-        } else if (cmd.startsWith('echo ')) {
-            response = command.substring(5);
-        } else if (cmd === '') {
-            return;
-        } else {
-            response = `'${command}' is not recognized as an internal or external command.`;
-        }
-        
-        if (response) {
-            this.addResponse(response);
-        }
-        
-        this.output.scrollTop = this.output.scrollHeight;
-    },
-    
-    addCommandLine(command) {
-        const commandLine = document.createElement('div');
-        commandLine.className = 'terminal-line';
-        commandLine.textContent = `C:\\Portfolio> ${command}`;
-        
-        const terminalPrompt = document.querySelector('.terminal-prompt');
-        this.output.insertBefore(commandLine, terminalPrompt);
-    },
-    
-    addResponse(response) {
-        const responseLine = document.createElement('div');
-        responseLine.className = 'terminal-output-line';
-        responseLine.style.whiteSpace = 'pre-line';
-        responseLine.textContent = response;
-        
-        const terminalPrompt = document.querySelector('.terminal-prompt');
-        this.output.insertBefore(responseLine, terminalPrompt);
-    },
-    
-    clearTerminal() {
-        const lines = this.output.querySelectorAll('.terminal-line, .terminal-output-line');
-        lines.forEach((line, index) => {
-            if (index >= 6) line.remove();
-        });
-    }
-};
-
-// Legacy function wrappers
-const runCode = () => terminal.open();
-const handleTerminalCommand = (command) => terminal.handleCommand(command);
-
-// Optimized Method Collapsing
+// Method Collapsing
 function toggleMethod(contentId, iconElement) {
     const content = document.getElementById(contentId);
     const dots = iconElement.nextElementSibling;
@@ -267,10 +157,96 @@ function toggleMethod(contentId, iconElement) {
     }
 }
 
-// Initialize all systems
-document.addEventListener('DOMContentLoaded', () => {
-    transitions.init();
-    modals.init();
-    emailHandler.init();
-    terminal.init();
+// Terminal Functions
+function runCode() {
+    document.getElementById('terminalModal').style.display = 'flex';
+    setTimeout(() => {
+        const terminalInput = document.getElementById('terminal-input');
+        if (terminalInput) {
+            terminalInput.focus();
+            document.querySelector('.cursor')?.classList.add('blinking');
+        }
+    }, 500);
+}
+
+function closeTerminal() {
+    document.getElementById('terminalModal').style.display = 'none';
+}
+
+// Terminal Command Handling
+function handleTerminalCommand(command) {
+    const terminalOutput = document.getElementById('terminal-output');
+    const terminalPrompt = document.querySelector('.terminal-prompt');
+    
+    // Add command line
+    const commandLine = document.createElement('div');
+    commandLine.className = 'terminal-line';
+    commandLine.textContent = `C:\\Portfolio> ${command}`;
+    terminalOutput.insertBefore(commandLine, terminalPrompt);
+    
+    // Process command
+    let response = '';
+    const cmd = command.toLowerCase().trim();
+    
+    const commands = {
+        help: 'Available commands: help, clear, about, contact, projects, dir, cd projects, echo [text]',
+        about: 'Noah Willis - Software Developer\nPassionate about creating innovative solutions.',
+        contact: 'Email: noah.willis2014@gmail.com\nLinkedIn: linkedin.com/in/noah-willis07',
+        projects: 'Check out my projects page for detailed information about my work.',
+        dir: 'NoahWillis.java\nREADME.md\nprojects/\ncontact.txt',
+        ls: 'NoahWillis.java\nREADME.md\nprojects/\ncontact.txt'
+    };
+    
+    if (commands[cmd]) {
+        response = commands[cmd];
+    } else if (['clear', 'cls'].includes(cmd)) {
+        const lines = terminalOutput.querySelectorAll('.terminal-line, .terminal-output-line');
+        lines.forEach((line, index) => {
+            if (index >= 6) line.remove();
+        });
+        return;
+    } else if (['cd projects', 'cd projects/'].includes(cmd)) {
+        response = 'Navigating to projects directory...';
+        setTimeout(() => navigateWithTransition('projects.html'), 1000);
+    } else if (cmd.startsWith('echo ')) {
+        response = command.substring(5);
+    } else if (cmd === '') {
+        return;
+    } else {
+        response = `'${command}' is not recognized as an internal or external command.`;
+    }
+    
+    // Add response
+    if (response) {
+        const responseLine = document.createElement('div');
+        responseLine.className = 'terminal-output-line';
+        responseLine.style.whiteSpace = 'pre-line';
+        responseLine.textContent = response;
+        terminalOutput.insertBefore(responseLine, terminalPrompt);
+    }
+    
+    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+}
+
+// Setup Additional Event Listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Terminal input handling
+    const terminalInput = document.getElementById('terminal-input');
+    if (terminalInput) {
+        terminalInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                handleTerminalCommand(this.value);
+                this.value = '';
+            }
+        });
+    }
+    
+    // Projects navigation
+    const projectsLink = document.querySelector('a[href="projects.html"]');
+    if (projectsLink) {
+        projectsLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            navigateWithTransition('projects.html');
+        });
+    }
 });
