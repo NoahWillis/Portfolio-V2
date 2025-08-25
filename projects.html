@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Projects</title>
+    <link rel="icon" type="image/x-icon" href="Images/Projetcs icon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" >
+    <link rel="stylesheet" href="projectStyle.css">
+</head>
+<body>
+
+    <!-- Page Transition Overlay -->
+    <div class="page-transition-overlay" id="transitionOverlay">
+        <div class="transition-content">
+            <div class="transition-spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <div class="vscode-interface">
+        <!-- File Explorer -->
+        <div class="file-explorer">
+            <div class="explorer-header">
+                <i class="fas fa-folder"></i> Explorer
+            </div>
+            <div class="file-tree">
+                <div class="folder">
+                    <div class="folder-header">
+                        <i class="fas fa-chevron-down folder-icon"></i>
+                        <span>Portfolio</span>
+                    </div>
+                    <div class="folder-content">
+                        <div class="file-item" onclick="openFile('home')">
+                            <i class="fas fa-home file-icon html"></i>
+                            <span>home.html</span>
+                        </div>
+                        <div class="file-item active" onclick="openFile('projects')">
+                            <i class="fas fa-code file-icon html"></i>
+                            <span>projects.html</span>
+                        </div>
+                        <div class="folder">
+                            <div class="folder-header" onclick="toggleFolder('projects-folder')">
+                                <i class="fas fa-chevron-down folder-icon"></i>
+                                <span>Projects</span>
+                            </div>
+                            <div class="folder-content" id="projects-folder">
+                                <div class="file-item" onclick="openProject('ascii-game')">
+                                    <i class="fas fa-globe file-icon project"></i>
+                                    <span>dndAsciiGame.md</span>
+                                </div>
+                                <div class="file-item" onclick="openProject('TaskManager')">
+                                    <i class="fab fa-java file-icon project"></i>
+                                    <span>task-manager.md</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editor Area -->
+        <div class="editor-area">
+            <div class="tab-bar">
+                <div class="tab active" id="default-tab" onclick="switchToTab('default')">
+                    <i class="fas fa-folder-open tab-icon"></i>
+                    <span>Welcome</span>
+                </div>
+            </div>
+            
+            <div class="editor-content">
+                <div class="line-numbers">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                    <span>6</span>
+                    <span>7</span>
+                    <span>8</span>
+                    <span>9</span>
+                    <span>10</span>
+                    <span>11</span>
+                    <span>12</span>
+                    <span>13</span>
+                    <span>14</span>
+                    <span>15</span>
+                    <span>16</span>
+                    <span>17</span>
+                    <span>18</span>
+                    <span>19</span>
+                    <span>20</span>
+                    <span>21</span>
+                    <span>22</span>
+                    <span>23</span>
+                    <span>24</span>
+                    <span>25</span>
+                </div>
+                
+                <div class="code-area">
+                    <!-- Default Content -->
+                    <div class="default-content" id="default-content">
+                        <i class="fas fa-folder-open"></i>
+                        <h3>Welcome to My Projects</h3>
+                        <p>Select a project from the file tree to view details</p>
+                        <p class="home-instruction">To go home, click on the home.html</p>
+                    </div>
+
+                    <!-- Python DND Ascii Game Project -->
+                    <div class="project-display" id="ascii-game">
+                        <div class="project-header">
+                            <h1 class="project-title">Python DND Ascii Game</h1>
+                            <p class="project-description">
+                                A text-based Dungeons and Dragons game implemented in Python. 
+                                Features ASCII art in the command line interface and turn-based combat.
+                                It also has an open world map and multiple character classes.
+                            </p>
+                        </div>
+
+                        <div class="project-slideshow">
+                            <div class="slideshow-container">
+                                <div class="slide active">
+                                    <img src="Images/ascii/asciiGame.png" alt="Python DND Ascii Game - Main Screen" class="project-image">
+                                </div>
+                                <div class="slide">
+                                    <img src="Images/ascii/asciiMenu1.png" alt="Python DND Ascii Game - character creation" class="project-image">
+                                </div>
+                                <div class="slide">
+                                    <img src="Images/ascii/asciiMenu2.png" alt="Python DND Ascii Game - character creation" class="project-image">
+                                </div>
+                                <div class="slide">
+                                    <img src="Images/ascii/asciiMenu3.png" alt="Python DND Ascii Game - character creation" class="project-image">
+                                </div>
+                                <div class="slide">
+                                    <img src="Images/ascii/asciiMenu4.png" alt="Python DND Ascii Game - character creation" class="project-image">
+                                </div>
+                                <div class="slide">
+                                    <img src="Images/ascii/asciiMenu5.png" alt="Python DND Ascii Game - Map" class="project-image">
+                                </div>
+                                
+                                <!-- Navigation arrows -->
+                                <button class="slide-nav prev" onclick="changeSlide(-1, 'ascii-game')">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="slide-nav next" onclick="changeSlide(1, 'ascii-game')">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                                
+                                <!-- Dots indicator -->
+                                <div class="slide-dots">
+                                    <span class="dot active" onclick="currentSlide(1, 'ascii-game')"></span>
+                                    <span class="dot" onclick="currentSlide(2, 'ascii-game')"></span>
+                                    <span class="dot" onclick="currentSlide(3, 'ascii-game')"></span>
+                                    <span class="dot" onclick="currentSlide(4, 'ascii-game')"></span>
+                                    <span class="dot" onclick="currentSlide(5, 'ascii-game')"></span>
+                                    <span class="dot" onclick="currentSlide(6, 'ascii-game')"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-details">
+                            <div class="detail-section">
+                                <div class="detail-title">Technologies Used</div>
+                                <div class="tech-stack">
+                                    <span class="tech-tag">Python</span>
+                                    <span class="tech-tag">ASCII</span>
+                                    <span class="tech-tag">Text-based</span>
+                                </div>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-title">Features</div>
+                                <ul> 
+                                    <li>Saving and Loading</li>
+                                    <li>Turn-based combat</li>
+                                    <li>Open world map</li>
+                                    <li>DND like character creation</li>
+                                    <li>ASCII art</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Task Manager Project -->
+                    <div class="project-display" id="TaskManager">
+                        <div class="project-header">
+                            <h1 class="project-title">Task Manager Web App</h1>
+                            <p class="project-description">
+                                A fully functional task management application built with html, css, and js. 
+                                Supports basic task operations with a clean, intuitive interface.
+                            </p>
+                        </div>
+
+                        <img src="Images/TManager.png" alt="Task Manager" class="project-image">
+                        
+                        <div class="project-details">
+                            <div class="detail-section">
+                                <div class="detail-title">Technologies Used</div>
+                                <div class="tech-stack">
+                                    <span class="tech-tag">JavaScript</span>
+                                    <span class="tech-tag">HTML</span>
+                                    <span class="tech-tag">CSS</span>
+                                </div>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-title">Features</div>
+                                <ul>
+                                    <li>Task creation and deletion</li>
+                                    <li>Task prioritization</li>
+                                    <li>Due date management</li>
+                                    <li>Responsive design</li>
+                                    <li>Dashboard to house multiple views</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="project-links">
+                            <a href="https://github.com/NoahWillis/TaskManager" target="_blank" class="project-link">
+                                <i class="fab fa-github"></i>
+                                View on GitHub
+                            </a>
+                        </div>
+
+                        <div class="project-links">
+                            <a href="https://noahwillis.github.io/TaskManager/dashboard.html" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i>
+                                Open Task Manager
+                            </a>
+                        </div>
+
+                    </div>
+
+        
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Noah Willis. All rights reserved.
+    </footer>
+
+    <script>
+        // Page transition functionality
+        window.addEventListener('load', function() {
+            // Hide the transition overlay after page loads
+            setTimeout(() => {
+                const overlay = document.getElementById('transitionOverlay');
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 300);
+            }, 400);
+        });
+
+        // Add transition when navigating away
+        function navigateWithTransition(url) {
+            const overlay = document.getElementById('transitionOverlay');
+            overlay.style.display = 'flex';
+            overlay.style.opacity = '1';
+            
+            setTimeout(() => {
+                window.location.href = url;
+            }, 300);
+        }
+
+        let openTabs = new Set(['default']);
+        let activeTab = 'default';
+
+        function openProject(projectId) {
+            // Add tab if not already open
+            if (!openTabs.has(projectId)) {
+                addTab(projectId);
+                openTabs.add(projectId);
+            }
+            
+            // Switch to this tab
+            switchToTab(projectId);
+            
+            // Update active file in tree
+            const fileItems = document.querySelectorAll('.file-item');
+            fileItems.forEach(item => item.classList.remove('active'));
+            event.target.closest('.file-item').classList.add('active');
+        }
+
+        function addTab(projectId) {
+            const tabBar = document.querySelector('.tab-bar');
+            const projectNames = {
+                'ascii-game': 'Python DND Game',
+                'TaskManager': 'Task Manager'
+            };
+            
+            const projectIcons = {
+                'ascii-game': 'fab fa-python',
+                'TaskManager': 'fab fa-js',
+                'portfolio-website': 'fas fa-globe'
+            };
+
+            const tab = document.createElement('div');
+            tab.className = 'tab';
+            tab.id = `tab-${projectId}`;
+            tab.innerHTML = `
+                <i class="${projectIcons[projectId]} tab-icon"></i>
+                <span>${projectNames[projectId]}</span>
+                <i class="fas fa-times tab-close" onclick="closeTab('${projectId}', event)"></i>
+            `;
+            tab.onclick = (e) => {
+                if (!e.target.classList.contains('tab-close')) {
+                    switchToTab(projectId);
+                }
+            };
+            
+            tabBar.appendChild(tab);
+        }
+
+        function switchToTab(tabId) {
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            if (tabId === 'default') {
+                document.getElementById('default-tab').classList.add('active');
+            } else {
+                document.getElementById(`tab-${tabId}`).classList.add('active');
+            }
+            
+            // Show/hide content
+            if (tabId === 'default') {
+                document.getElementById('default-content').style.display = 'flex';
+                document.querySelectorAll('.project-display').forEach(project => {
+                    project.classList.remove('active');
+                });
+            } else {
+                document.getElementById('default-content').style.display = 'none';
+                document.querySelectorAll('.project-display').forEach(project => {
+                    project.classList.remove('active');
+                });
+                document.getElementById(tabId).classList.add('active');
+            }
+            
+            activeTab = tabId;
+        }
+
+        function closeTab(tabId, event) {
+            event.stopPropagation();
+            
+            // Don't close if it's the only tab
+            if (openTabs.size <= 1) return;
+            
+            // Remove tab from DOM
+            document.getElementById(`tab-${tabId}`).remove();
+            openTabs.delete(tabId);
+            
+            // If closing active tab, switch to another tab
+            if (activeTab === tabId) {
+                const remainingTabs = Array.from(openTabs);
+                switchToTab(remainingTabs[remainingTabs.length - 1]);
+            }
+        }
+
+        function openFile(fileName) {
+            if (fileName === 'home') {
+                navigateWithTransition('home.html');
+            } else if (fileName === 'projects') {
+                // Already on projects page, just switch to default tab
+                switchToTab('default');
+            }
+        }
+
+        function toggleFolder(folderId) {
+            const folder = document.getElementById(folderId);
+            const icon = event.target.querySelector('.folder-icon');
+            
+            if (folder.style.display === 'none') {
+                folder.style.display = 'block';
+                icon.classList.remove('fa-chevron-right');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                folder.style.display = 'none';
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-right');
+            }
+        }
+
+        // Slideshow functionality
+        let currentSlideIndex = {};
+
+        function initializeSlideshow(projectId) {
+            currentSlideIndex[projectId] = 1;
+        }
+
+        function changeSlide(direction, projectId) {
+            if (!currentSlideIndex[projectId]) {
+                initializeSlideshow(projectId);
+            }
+            
+            const slides = document.querySelectorAll(`#${projectId} .slide`);
+            const dots = document.querySelectorAll(`#${projectId} .dot`);
+            
+            if (slides.length === 0) return;
+            
+            // Remove active class from current slide and dot
+            slides[currentSlideIndex[projectId] - 1].classList.remove('active');
+            dots[currentSlideIndex[projectId] - 1].classList.remove('active');
+            
+            // Update index
+            currentSlideIndex[projectId] += direction;
+            
+            // Handle wrap around
+            if (currentSlideIndex[projectId] > slides.length) {
+                currentSlideIndex[projectId] = 1;
+            }
+            if (currentSlideIndex[projectId] < 1) {
+                currentSlideIndex[projectId] = slides.length;
+            }
+            
+            // Add active class to new slide and dot
+            slides[currentSlideIndex[projectId] - 1].classList.add('active');
+            dots[currentSlideIndex[projectId] - 1].classList.add('active');
+        }
+
+        function currentSlide(slideNumber, projectId) {
+            if (!currentSlideIndex[projectId]) {
+                initializeSlideshow(projectId);
+            }
+            
+            const slides = document.querySelectorAll(`#${projectId} .slide`);
+            const dots = document.querySelectorAll(`#${projectId} .dot`);
+            
+            if (slides.length === 0) return;
+            
+            // Remove active class from current slide and dot
+            slides[currentSlideIndex[projectId] - 1].classList.remove('active');
+            dots[currentSlideIndex[projectId] - 1].classList.remove('active');
+            
+            // Set new index
+            currentSlideIndex[projectId] = slideNumber;
+            
+            // Add active class to new slide and dot
+            slides[currentSlideIndex[projectId] - 1].classList.add('active');
+            dots[currentSlideIndex[projectId] - 1].classList.add('active');
+        }
+
+        // Initialize slideshows when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSlideshow('ascii-game');
+        });
+    </script>
+</body>
+</html>

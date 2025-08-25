@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - home</title>
+    <link rel="icon" type="image/x-icon" href="Images/Home icon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" >
+    <link rel="stylesheet" href= "homeStyle.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="home.html" class="active">Home</a>
+            <a href="projects.html">Projects</a>
+        </nav>
+    </header>
+    
+    <!-- Page Transition Overlay -->
+    <div class="page-transition-overlay" id="transitionOverlay">
+        <div class="transition-content">
+            <div class="transition-spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+    
+    <div class="home-content">
+        <div class="code-editor">
+            <div class="code-header">
+                <div class="window-controls">
+                    <span class="control close"></span>
+                    <span class="control minimize"></span>
+                    <span class="control maximize"></span>
+                </div>
+                <div class="file-name">NoahWillis.java</div>
+                <div class="run-controls">
+                    <button class="run-button" onclick="runCode()" title="Run Java Application">
+                        <i class="fas fa-play"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="code-content">
+                <div class="line-numbers">
+                    <span class="line-number" data-line="1">1</span>
+                    <span class="line-number" data-line="2">2</span>
+                    <span class="line-number" data-line="3">3</span>
+                    <span class="line-number" data-line="4">4</span>
+                    <span class="line-number" data-line="5">5</span>
+                    <span class="line-number" data-line="6">6</span>
+                    <span class="line-number" data-line="7">7</span>
+                    <span class="line-number" data-line="8">8</span>
+                    <span class="line-number" data-line="9">9</span>
+                    <span class="line-number" data-line="10">10</span>
+                    <span class="line-number" data-line="11">11</span>
+                    <span class="line-number" data-line="12">12</span>
+                    <span class="line-number" data-line="13">13</span>
+                    <span class="line-number" data-line="14">14</span>
+                    <span class="line-number" data-line="15">15</span>
+                    <span class="line-number" data-line="16">16</span>
+                    <span class="line-number" data-line="17">17</span>
+                    <span class="line-number" data-line="18">18</span>
+                    <span class="line-number" data-line="19">19</span>
+                    <span class="line-number" data-line="20">20</span>
+                    <span class="line-number" data-line="21">21</span>
+                    <span class="line-number" data-line="22">22</span>
+                    <span class="line-number" data-line="23">23</span>
+                    <span class="line-number" data-line="24">24</span>
+                    <span class="line-number" data-line="25">25</span>
+                </div>
+                <div class="code-body">
+                    <div class="java-code">
+                        <div class="code-line" data-line="1"><span class="keyword">public class</span> <span class="class-name">NoahWillis</span> <span class="bracket">{</span></div>
+                        <div class="code-line method-header" data-line="2">
+                            <span class="indent"></span><span class="keyword">public static void</span> <span class="method-name">main</span><span class="bracket">(</span><span class="keyword">String</span><span class="bracket">[]</span> <span class="variable">args</span><span class="bracket">) {</span><span class="collapse-icon" onclick="toggleMethod('main-content', this)">▼</span><span class="collapsed-dots" style="display: none;">...</span>
+                        </div>
+                        
+                        <div class="method-content" id="main-content">
+                            <div class="code-line" data-line="3"><br></div>
+                            <div class="content-wrapper">
+                                <div class="text-content">
+                                    <div class="header-line">
+                                        <h1>About Noah, </h1>
+                                        <h3 class="typing-text">I'm a <span></span></h3>
+                                    </div>
+                                    
+                                    <div class="comment-block">
+                                        <p class="code-comment">/* Hi, I'm Noah Willis — an aspiring software developer with a passion for technology and problem-solving. I am currently developing my professional skills through Access Point, where I am gaining valuable hands-on experience and working toward securing an apprenticeship. I have studied programming languages such as Python, SQL, Java, HTML, and CSS. I pride myself on my ability to quickly learn and adapt to new programming languages and stay up to date with the latest releases and best practices. I am a hungry learner constantly seeking new challenges and opportunities to grow, always looking to improve my skills and take on new projects. */</p>
+                                    </div>
+                                    
+                                    <div class="about-icons">
+                                        <span class="code-comment">// Skills:</span><br>
+                                        <i class="fab fa-python" title="Python"></i>
+                                        <i class="fab fa-java" title="Java"></i>
+                                        <i class="fab fa-html5" title="HTML5"></i>
+                                        <i class="fab fa-css3-alt" title="CSS3"></i>
+                                        <i class="fab fa-js" title="JavaScript"></i>
+                                        <i class="fas fa-database" title="SQL"></i>
+                                    </div>
+                                </div>
+                                <div class="home-img">
+                                    <img src="Images/Main.jpg" alt="Noah Willis">
+                                </div>
+                            </div>
+                            <div class="code-line" data-line="4"><br><span class="indent"></span><span class="bracket">}</span></div>
+                        </div>
+                        
+                        <div class="code-line" data-line="5"><br></div>
+                        
+                        <div class="code-line method-header" data-line="6">
+                            <span class="indent"></span><span class="keyword">public void</span> <span class="method-name">connectWithMe</span><span class="bracket">() {</span><span class="collapse-icon" onclick="toggleMethod('connect-content', this)">▼</span><span class="collapsed-dots" style="display: none;">...</span>
+                        </div>
+                        
+                        <div class="method-content" id="connect-content">
+                            <div class="code-line" data-line="7"><span class="indent"></span><span class="indent"></span><a href="https://www.linkedin.com/in/noah-willis07/"><i class="fa-brands fa-linkedin"></i> LinkedIn</a></div>
+                            <div class="code-line" data-line="8"><span class="indent"></span><span class="indent"></span><a href="https://github.com/NoahWillis"><i class="fa-brands fa-github"></i> GitHub</a></div>
+                            <div class="code-line" data-line="9"><span class="indent"></span><span class="bracket">}</span></div>
+                        </div>
+                        
+                        <div class="code-line" data-line="10"><br></div>
+                        
+                        <div class="code-line method-header" data-line="11">
+                            <span class="indent"></span><span class="keyword">public void</span> <span class="method-name">contactMe</span><span class="bracket">() {</span><span class="collapse-icon" onclick="toggleMethod('contact-content', this)">▼</span><span class="collapsed-dots" style="display: none;">...</span>
+                        </div>
+                        
+                        <div class="method-content" id="contact-content">
+                            <div class="code-line" data-line="12"><span class="indent"></span><span class="indent"></span><button class="btn" onclick="openContactModal()">Contact me</button></div>
+                            <div class="code-line" data-line="13"><span class="indent"></span><span class="bracket">}</span></div>
+                        </div>
+                        
+                        <div class="code-line" data-line="14"><br><span class="bracket">}</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Command Prompt Modal -->
+    <div id="terminalModal" class="modal">
+        <div class="modal-content terminal-modal">
+            <div class="terminal-header">
+                <div class="terminal-controls">
+                    <span class="terminal-control close" onclick="closeTerminal()"></span>
+                    <span class="terminal-control minimize"></span>
+                    <span class="terminal-control maximize"></span>
+                </div>
+                <div class="terminal-title">Command Prompt</div>
+            </div>
+            <div class="terminal-content">
+                <div class="terminal-output" id="terminal-output">
+                    <div class="terminal-line">[Version 10.0.19045.3930]</div>
+                    <div class="terminal-line">(c) Noah Willis. All rights reserved.</div>
+                    <div class="terminal-line"></div>
+                    <div class="terminal-line">C:\Portfolio> java NoahWillis</div>
+                    <div class="terminal-output-line">Hello World</div>
+                    <div class="terminal-line"></div>
+                    <div class="terminal-prompt">
+                        <span class="prompt-text">C:\Portfolio> </span>
+                        <input type="text" id="terminal-input" class="terminal-input" autocomplete="off" spellcheck="false">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Form Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Contact Me</h2>
+                <span class="close" onclick="closeContactModal()">&times;</span>
+            </div>
+            <form id="contactForm" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject:</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-primary">Send <i class="fas fa-paper-plane"></i></button>
+                    <button type="button" class="btn btn-secondary" onclick="closeContactModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content success-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-check-circle" style="color: #28a745; margin-right: 10px;"></i>Message Sent!</h2>
+                <span class="close" onclick="closeSuccessModal()">&times;</span>
+            </div>
+            <div class="success-content">
+                <p id="successMessage">Thank you! Your message has been sent successfully. I'll get back to you soon!</p>
+                <button type="button" class="btn btn-primary" onclick="closeSuccessModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Noah Willis. All rights reserved.
+    </footer>
+
+    <script src="homeScript.js"></script>
+</body>
+</html>
